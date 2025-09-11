@@ -1,0 +1,61 @@
+
+
+django commands
+faker
+
+
+django filters
+serializers(validation, extra field)
+login, register (jwt)
+
+
+apps
+users (User, Profile)
+payments
+orders (Order, OrderHistory)
+----------------------------------------
+
+[auth]
+    changepassword              +
+    createsuperuser             +
+
+[contenttypes]
+    remove_stale_contenttypes   -
+
+
+[django]
+    check                       +
+    compilemessages             - # i18n
+    createcachetable            - # RAM, HDD
+    dbshell                     +
+    diffsettings                -
+    dumpdata                +
+    flush                   +
+    inspectdb               +
+    loaddata(xml,yaml,json) +
+    makemessages            - # i18n
+    makemigrations          +
+    migrate                 +
+    optimizemigration       -
+    sendtestemail           +
+    shell                   +
+    showmigrations          +
+    sqlflush                -
+    sqlmigrate              +
+    sqlsequencereset        -
+    squashmigrations        -
+    startapp                +
+    startproject            -
+    test                    -
+    testserver              -
+
+[drf_spectacular]
+    spectacular
+
+[sessions]
+    clearsessions           +
+
+[staticfiles]
+    collectstatic           -
+    findstatic              -
+    runserver               +
