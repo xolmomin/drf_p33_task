@@ -16,81 +16,15 @@ userni id -> uuid
 
 /api/v1/products (productlar listini chiqarish)
 /api/v1/categories (categories listini chiqarish)
-/api/v1/orders (ozini orderlarni chiqarish) [auth]
-order
-id(uuid),user,product,quantity,created_at,updated_at
+❌ /api/v1/orders (ozini orderlarni chiqarish) [auth]
+❌ /api/v1/cart (POST, product_id, user_id)
+/api/v1/login
+/api/v1/refresh-token
 
-
-modellar - user, product, category, order
-
-
-redis 5-10x faster
-dragonfly
-
-http method
-
-post, put, patch
-header
-body
-
-get, delete
-header
-
-BasicAuthentication (username, password)
+jwt
 
 
 
-apps
-users (User, Profile)
-payments
-orders (Order, OrderHistory)
-----------------------------------------
-
-[auth]
-    changepassword              +
-    createsuperuser             +
-
-[contenttypes]
-    remove_stale_contenttypes   -
+modellar - user, product, category, order, cart, cartitem
 
 
-[django]
-    check                       +
-    compilemessages             - # i18n
-    createcachetable            - # RAM, HDD
-    dbshell                     +
-    diffsettings                -
-    dumpdata                +
-    flush                   +
-    inspectdb               +
-    loaddata(xml,yaml,json) +
-    makemessages            - # i18n
-    makemigrations          +
-    migrate                 +
-    optimizemigration       -
-    sendtestemail           +
-    shell                   +
-    showmigrations          +
-    sqlflush                -
-    sqlmigrate              +
-    sqlsequencereset        -
-    squashmigrations        -
-    startapp                +
-    startproject            -
-    test                    -
-    testserver              -
-
-[drf_spectacular]
-    spectacular
-
-[sessions]
-    clearsessions           +
-
-[staticfiles]
-    collectstatic           -
-    findstatic              -
-    runserver               +
-
-
-django, crypto, linux
-sha256 hash algorithm
