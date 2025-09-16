@@ -4,9 +4,40 @@ django commands
 faker
 
 
-django filters
+django filters (3)
 serializers(validation, extra field)
 login, register (jwt)
+
+login|register (sms code) (jwt)
+
+
+barcha idlar uuid bolishi kk
+userni id -> uuid
+
+/api/v1/products (productlar listini chiqarish)
+/api/v1/categories (categories listini chiqarish)
+/api/v1/orders (ozini orderlarni chiqarish) [auth]
+order
+id(uuid),user,product,quantity,created_at,updated_at
+
+
+modellar - user, product, category, order
+
+
+redis 5-10x faster
+dragonfly
+
+http method
+
+post, put, patch
+header
+body
+
+get, delete
+header
+
+BasicAuthentication (username, password)
+
 
 
 apps
@@ -59,3 +90,7 @@ orders (Order, OrderHistory)
     collectstatic           -
     findstatic              -
     runserver               +
+
+
+django, crypto, linux
+sha256 hash algorithm
