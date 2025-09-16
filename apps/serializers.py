@@ -6,7 +6,7 @@ from apps.models import Post
 class PostListModelSerializer(ModelSerializer):
     class Meta:
         model = Post
-        fields = 'id', 'title', 'category'
+        fields = 'id', 'title', 'category', 'userId'
 
 
 class PostDetailModelSerializer(ModelSerializer):
