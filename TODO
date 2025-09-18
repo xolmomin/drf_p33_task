@@ -28,3 +28,16 @@ jwt
 modellar - user, product, category, order, cart, cartitem
 
 
+
+1. phone, password
+2. cache
+3. phone, sms code
+4. token olish
+
+
+
+docker run --name redis_container -p 6379:6379 -d redis:alpine
+
+docker run --name dragonflydb_container -p 6379:6379 -d docker.dragonflydb.io/dragonflydb/dragonfly
+
+
