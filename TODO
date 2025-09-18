@@ -1,19 +1,4 @@
 
-
-django commands
-faker
-
-
-django filters (3)
-serializers(validation, extra field)
-login, register (jwt)
-
-login|register (sms code) (jwt)
-
-
-barcha idlar uuid bolishi kk
-userni id -> uuid
-
 /api/v1/products (productlar listini chiqarish)
 /api/v1/categories (categories listini chiqarish)
 ❌ /api/v1/orders (ozini orderlarni chiqarish) [auth]
@@ -39,3 +24,10 @@ modellar - user, product, category, order, cart, cartitem
 docker run --name redis_container -p 6379:6379 -d redis:alpine
 
 
+#Homework-task
+1. adminkadagi password olib tashash (junior +)
+2. faker orqali n tadan order, orderitem, cartitem, users, product, category toldirish
+python3 manage.py add_data
+3. cart ga qoshish, va ochirish
+4. cart dagi cart-itemlarni olish
+5.
