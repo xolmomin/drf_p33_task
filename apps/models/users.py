@@ -14,6 +14,7 @@ class User(AbstractUser, UUIDBaseModel):
     username = None
 
     objects = CustomUserManager()
+
     REQUIRED_FIELDS = []
     USERNAME_FIELD = 'phone'
 

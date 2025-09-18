@@ -1,13 +1,13 @@
-from typing import Optional, Any
+import re
+from typing import Any
 
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
-from rest_framework.fields import CharField
+from rest_framework.fields import CharField, IntegerField
 from rest_framework.serializers import ModelSerializer, Serializer
-from rest_framework_simplejwt.tokens import Token
+from rest_framework_simplejwt.tokens import Token, RefreshToken
 
 from apps.models import Product, User
-from apps.utils import send_sms_code, random_code
 
 
 class ProductListModelSerializer(ModelSerializer):
@@ -16,42 +16,69 @@ class ProductListModelSerializer(ModelSerializer):
         fields = 'id', 'name', 'price', 'category'
 
 
-class CustomAccessTokenSerializer(Serializer):
-    username_field = User.USERNAME_FIELD
-    CharField()
-    token_class: Optional[type[Token]] = None
+class SendSmsCodeSerializer(Serializer):
+    phone = CharField(default='901001010')
+
+    def validate_phone(self, value):
+        digits = re.findall(r'\d', value)
+        if len(digits) < 9:
+            raise ValidationError('Phone number must be at least 9 digits')
+
+        phone = ''.join(digits)
+        return phone.removeprefix('998')
+
+    def validate(self, attrs):
+        phone = attrs['phone']
+        user, created = User.objects.get_or_create(phone=phone)
+        user.set_unusable_password()
+
+        return super().validate(attrs)
+
+
+class UserModelSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = 'id', 'phone'
+
+
+class VerifySmsCodeSerializer(Serializer):
+    phone = CharField(default='901001010')
+    code = IntegerField(default=100100)
+    token_class = RefreshToken
 
     default_error_messages = {
         "no_active_account": "No active account found with the given credentials"
     }
 
-    def __init__(self, *args, **kwargs) -> None:
-        super().__init__(*args, **kwargs)
-
-        self.fields[self.username_field] = CharField(write_only=True, default='901001010')
-
-    def send_code(self):
-        code = random_code()
-        send_sms_code(self.user.phone, code)
+    def validate_phone(self, value):
+        digits = re.findall(r'\d', value)
+        if len(digits) < 9:
+            raise ValidationError('Phone number must be at least 9 digits')
+        phone = ''.join(digits)
+        return phone.removeprefix('998')
 
     def validate(self, attrs: dict[str, Any]):
-        authenticate_kwargs = {
-            self.username_field: attrs[self.username_field]
-        }
-        try:
-            authenticate_kwargs["request"] = self.context["request"]
-        except KeyError:
-            pass
-
-        self.user = authenticate(**authenticate_kwargs)
+        self.user = authenticate(phone=attrs['phone'], request=self.context['request'])
 
         if self.user is None:
             raise ValidationError(self.default_error_messages['no_active_account'])
 
-        self.send_code()
+        return attrs
+
+    @property
+    def get_data(self):
+        refresh = self.get_token(self.user)
+        data = {
+            'access_token': str(refresh.access_token),
+            'refresh_token': str(refresh)
+        }
+        user_data = UserModelSerializer(self.user).data
+
         return {
-            'message': "sms code sent",
-            'data': None
+            'message': "OK",
+            'data': {
+                **data, **{'user': user_data}
+            }
         }
 
     @classmethod
