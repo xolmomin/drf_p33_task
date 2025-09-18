@@ -16,9 +16,3 @@ class Product(CreatedBaseModel):
     image = ImageField(upload_to='products/%Y/%m/%d', validators=[FileExtensionValidator(['jpg', 'jpeg', 'png'])])
     description = CKEditor5Field()
     category = ForeignKey('apps.Category', CASCADE)
-
-
-class Order(CreatedBaseModel):
-    product = ForeignKey('apps.Product', CASCADE)
-    user = ForeignKey('apps.User', CASCADE)
-    quantity = IntegerField()
