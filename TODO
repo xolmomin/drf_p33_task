@@ -10,24 +10,18 @@ jwt
 
 
 
-modellar - user, product, category, order, cart, cartitem
-
-
-
-1. phone, password
-2. cache
-3. phone, sms code
-4. token olish
-
-
-
 docker run --name redis_container -p 6379:6379 -d redis:alpine
 
 
 #Homework-task
 1. adminkadagi password olib tashash (junior +)
-2. faker orqali n tadan order, orderitem, cartitem, users, product, category toldirish
+2. faker orqali n tadan
+order, orderitem, cart, cartitem, users, product, category
+
 python3 manage.py add_data
 3. cart ga qoshish, va ochirish
 4. cart dagi cart-itemlarni olish
 5.
+
+
+
