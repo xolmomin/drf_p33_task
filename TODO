@@ -17,11 +17,16 @@ docker run --name redis_container -p 6379:6379 -d redis:alpine
 1. adminkadagi password olib tashash (junior +)
 2. faker orqali n tadan
 order, orderitem, cart, cartitem, users, product, category
-
 python3 manage.py add_data
 3. cart ga qoshish, va ochirish
 4. cart dagi cart-itemlarni olish
 5.
 
+
+
+api/v1/categories
+api/v1/products
+
+api/v1/cart-items (❌)
 
 

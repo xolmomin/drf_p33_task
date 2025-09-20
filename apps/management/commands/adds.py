@@ -18,8 +18,9 @@ class Command(BaseCommand):
         parser.add_argument('--users', type=int)
         parser.add_argument('--products', type=int)
         parser.add_argument('--categories', type=int)
+        parser.add_argument('--all')
 
-    def _generate_orders(self, number: int):
+    def _generate_orders(self, number: int = 5):
         for _ in range(number):
             random_user_id = User.objects.values_list('id', flat=True).order_by('?').first()
             if random_user_id is None:
@@ -28,7 +29,7 @@ class Command(BaseCommand):
             Order.objects.create(user_id=random_user_id, total_amount=0)
         self.stdout.write(self.style.SUCCESS(f"Order generated - {number}"))
 
-    def _generate_orderitems(self, number: int):
+    def _generate_orderitems(self, number: int = 5):
         for _ in range(number):
             random_order = Order.objects.order_by('?').first()
             random_product = Product.objects.order_by('?').first()
@@ -45,18 +46,20 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS(f"Order Items generated - {number}"))
 
-    def _generate_carts(self, number: int):
+    def _generate_carts(self, number: int = 5):
+        # TODO write here
         pass
 
-    def _generate_cartitems(self, number: int):
+    def _generate_cartitems(self, number: int = 5):
+        # TODO write here
         pass
 
-    def _generate_categories(self, number: int):
+    def _generate_categories(self, number: int = 5):
         for _ in range(number):
             Category.objects.create(name=self.faker.text(max_nb_chars=25))
         self.stdout.write(self.style.SUCCESS(f"Categories generated - {number}"))
 
-    def _generate_users(self, number: int):
+    def _generate_users(self, number: int = 5):
         for _ in range(number):
             User.objects.create(
                 first_name=self.faker.first_name(),
@@ -65,7 +68,7 @@ class Command(BaseCommand):
             )
         self.stdout.write(self.style.SUCCESS(f"Users generated - {number}"))
 
-    def _generate_products(self, number: int):
+    def _generate_products(self, number: int = 5):
         for _ in range(number):
             random_category_id = Category.objects.values_list('id', flat=True).order_by('?').first()
             if random_category_id is None:
@@ -82,8 +85,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         self.faker = Faker('uz_Uz')
-        kwargs = {key: value for key, value in kwargs.items() if value is not None}
-        generated_item_names = set(kwargs).intersection(self.model_list)
+
+        if kwargs.get('all'):
+            generated_item_names = self.model_list
+        else:
+            kwargs = {key: value for key, value in kwargs.items() if value is not None}
+            generated_item_names = set(kwargs).intersection(self.model_list)
 
         for _name in generated_item_names:
-            getattr(self, f"_generate_{_name}")(kwargs[_name])
+            if kwargs[_name] is None:
+                getattr(self, f"_generate_{_name}")()
+            else:
+                getattr(self, f"_generate_{_name}")(kwargs[_name])
