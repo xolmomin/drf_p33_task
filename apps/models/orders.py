@@ -1,11 +1,11 @@
-from django.db.models import ForeignKey, CASCADE
+from django.db.models import ForeignKey, CASCADE, OneToOneField
 from django.db.models.fields import IntegerField
 
 from apps.models.base import UUIDBaseModel, CreatedBaseModel
 
 
 class Cart(UUIDBaseModel):
-    user = ForeignKey('apps.User', CASCADE, related_name='carts')
+    user = OneToOneField('apps.User', CASCADE)
 
 
 class CartItem(CreatedBaseModel):

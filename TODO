@@ -18,15 +18,26 @@ docker run --name redis_container -p 6379:6379 -d redis:alpine
 2. faker orqali n tadan
 order, orderitem, cart, cartitem, users, product, category
 python3 manage.py add_data
-3. cart ga qoshish, va ochirish
-4. cart dagi cart-itemlarni olish
-5.
 
+5. cart dagini ochirish, update qilish (quantity)
+6. api/v1/cart/confirm [POST] Order va OrderItemga otkazadi
+6. api/v1/orders [GET] my orders
 
 
 api/v1/categories
 api/v1/products
 
 api/v1/cart-items (❌)
+
+
+botir
+901001010
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4OTU1ODExLCJpYXQiOjE3NTgzNTEwMTEsImp0aSI6ImU3OWUwYTQ4YTY2NTQ5ZTk5NWJlOWM1MTdkNzBjY2YyIiwidXNlcl9pZCI6IjI0ZDU5M2M0LTdmMGYtNGE2MC04OGY0LTYzOGI3ZGZjNjc4MyJ9.HZP_H9yEdsgT0Qbnwc7bhh572GZ52P_x6_o212RSDBg
+
+
+xolid
+405686472
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzU4OTU2NTQ4LCJpYXQiOjE3NTgzNTE3NDgsImp0aSI6IjQ3ZTQ0YTY5YjcyMTRjMDVhNTZmZGE2NTA4Mjc5MDRmIiwidXNlcl9pZCI6IjQwNWY5OWIzLWYyNGQtNDBlOC05MTAzLTVjYTc0MWYxYWZkOSJ9.fuNqw7yDeACYa_-HwFzYvzxWs8aWZ1I34J-nRXL6G3U
+
 
 

@@ -7,13 +7,35 @@ from rest_framework.fields import CharField, IntegerField
 from rest_framework.serializers import ModelSerializer, Serializer
 from rest_framework_simplejwt.tokens import Token, RefreshToken
 
-from apps.models import Product, User
+from apps.models import Product, User, Category, CartItem, Cart
 
 
 class ProductListModelSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = 'id', 'name', 'price', 'category'
+
+
+class CartItemModelSerializer(ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = 'id', 'cart', 'product', 'quantity'
+        read_only_fields = 'cart', 'quantity'
+        # extra_kwargs = {}
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        cart = Cart.objects.filter(user=user).first()
+        if not cart:
+            cart = Cart.objects.create(user=user)
+
+        return super().create(validated_data | {'cart_id': cart.id})
+
+
+class CategoryListModelSerializer(ModelSerializer):
+    class Meta:
+        model = Category
+        fields = 'id', 'name'
 
 
 class SendSmsCodeSerializer(Serializer):
