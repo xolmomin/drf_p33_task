@@ -2,7 +2,7 @@
 
 import apps.models.base
 import apps.models.users
-import django.contrib.auth.models
+import apps.models.managers
 import django.core.validators
 import django.db.models.deletion
 import django.utils.timezone
@@ -101,7 +101,7 @@ class Migration(migrations.Migration):
                 (
                     "phone",
                     models.CharField(
-                        max_length=15,
+                        max_length=20,
                         unique=True
                     ),
                 ),
@@ -134,7 +134,7 @@ class Migration(migrations.Migration):
                 "abstract": False,
             },
             managers=[
-                ("objects", django.contrib.auth.models.UserManager()),
+                ("objects", apps.models.managers.CustomUserManager()),
             ],
         ),
         migrations.CreateModel(
@@ -151,10 +151,8 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "user",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        related_name="carts",
-                        to=settings.AUTH_USER_MODEL,
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
                     ),
                 ),
             ],

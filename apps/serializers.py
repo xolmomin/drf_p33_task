@@ -140,3 +140,23 @@ class VerifySmsCodeSerializer(Serializer):
     @classmethod
     def get_token(cls, user) -> Token:
         return cls.token_class.for_user(user)  # type: ignore
+
+
+"""
+11
+
+PageNumber                           LimitOffset
+
+page=1 page_size=3      (3ta)        limit 3 offset 0
+page=2 page_size=3      (3ta)        limit 3 offset 3
+page=3 page_size=3      (3ta)        limit 3 offset 6
+page=4 page_size=3      (2ta)        limit 3 offset 9
+
+
+
+
+limit offset
+
+
+
+"""

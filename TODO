@@ -50,3 +50,16 @@ jwt
 products, category va orders apilariga pagination qoshish
 cart dagini ochirish, update qilish (quantity)
 
+
+
+migrations
+
+signals
+tests
+contenttype
+middleware
+
+
+https://medium.com/@ram-meegada/beyond-regular-foreign-keys-a-dive-into-djangos-generic-foreign-keys-ced1cb9957f3
+https://aisaastemplate.com/blog/django-contenttype-genericforeignkey-tutorial/
+https://medium.com/codex/understanding-generic-relations-in-django-9fed581166e6

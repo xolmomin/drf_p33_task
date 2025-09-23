@@ -124,7 +124,7 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
-    # 'DEFAULT_PAGINATION_CLASS': 'apps.paginations.CustomPageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': 'apps.paginations.CustomCursorPagination',
     'PAGE_SIZE': 3
 }
 

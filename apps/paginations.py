@@ -1,5 +1,10 @@
-from rest_framework.pagination import PageNumberPagination
+from rest_framework import pagination
+from rest_framework.pagination import PageNumberPagination, CursorPagination
 from rest_framework.response import Response
+
+
+class CustomCursorPagination(CursorPagination):
+    ordering = '-created_at'
 
 
 class CustomPageNumberPagination(PageNumberPagination):
