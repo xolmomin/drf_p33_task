@@ -4,16 +4,28 @@ from typing import Any
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from rest_framework.fields import CharField, IntegerField
-from rest_framework.serializers import ModelSerializer, Serializer
+from rest_framework.serializers import ModelSerializer, Serializer, ListSerializer
 from rest_framework_simplejwt.tokens import Token, RefreshToken
 
-from apps.models import Product, User, Category, CartItem, Cart
+from apps.models import Product, User, Category, CartItem, Cart, Order, OrderItem
 
 
 class ProductListModelSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = 'id', 'name', 'price', 'category'
+
+
+class ProductRetrieveModelSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = 'id', 'name', 'price', 'category'
+
+
+class CartConfirmModelSerializer(ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = ()
 
 
 class CartItemModelSerializer(ModelSerializer):
@@ -61,6 +73,28 @@ class UserModelSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = 'id', 'phone'
+
+
+class ProductModelSerializer(ModelSerializer):
+    class Meta:
+        model = Product
+        fields = 'id', 'name', 'price', 'image'
+
+
+class OrderItemModelSerializer(ModelSerializer):
+    product = ProductModelSerializer(read_only=True)
+
+    class Meta:
+        model = OrderItem
+        fields = 'id', 'product', 'quantity'
+
+
+class OrderModelSerializer(ModelSerializer):
+    products = OrderItemModelSerializer(many=True, source='order_items', read_only=True)
+
+    class Meta:
+        model = Order
+        fields = 'id', 'total_amount', 'products'
 
 
 class VerifySmsCodeSerializer(Serializer):

@@ -16,7 +16,8 @@ class OrderModelAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = 'id', 'name', 'price'
+    search_fields = 'name',
 
 
 admin.site.unregister(Group)

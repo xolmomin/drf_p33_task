@@ -28,6 +28,7 @@ pip-selfcheck.json
 cmake-build-*/
 .idea/**/mongoSettings.xml
 *.iws
+media
 out/
 .idea_modules/
 atlassian-ide-plugin.xml

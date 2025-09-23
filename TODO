@@ -47,3 +47,6 @@ jwt
 
 
 
+products, category va orders apilariga pagination qoshish
+cart dagini ochirish, update qilish (quantity)
+
