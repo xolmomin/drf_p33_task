@@ -55,7 +55,7 @@ cart dagini ochirish, update qilish (quantity)
 migrations
 
 signals
-tests
+tests (unittest, pytest)
 contenttype
 middleware
 
