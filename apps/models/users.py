@@ -2,7 +2,7 @@ import re
 
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.db.models import CharField
+from django.db.models import CharField, BigIntegerField
 
 from apps.models.base import UUIDBaseModel
 from apps.models.managers import CustomUserManager
@@ -10,6 +10,7 @@ from apps.models.managers import CustomUserManager
 
 class User(AbstractUser, UUIDBaseModel):
     phone = CharField(max_length=20, unique=True)
+    balance = BigIntegerField(default=0)
     email = None
     username = None
 

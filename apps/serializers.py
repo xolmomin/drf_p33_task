@@ -4,7 +4,7 @@ from typing import Any
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
 from rest_framework.fields import CharField, IntegerField
-from rest_framework.serializers import ModelSerializer, Serializer, ListSerializer
+from rest_framework.serializers import ModelSerializer, Serializer
 from rest_framework_simplejwt.tokens import Token, RefreshToken
 
 from apps.models import Product, User, Category, CartItem, Cart, Order, OrderItem
@@ -78,7 +78,7 @@ class UserModelSerializer(ModelSerializer):
 class ProductModelSerializer(ModelSerializer):
     class Meta:
         model = Product
-        fields = 'id', 'name', 'price', 'image'
+        fields = 'id', 'name', 'price'
 
 
 class OrderItemModelSerializer(ModelSerializer):
@@ -140,23 +140,3 @@ class VerifySmsCodeSerializer(Serializer):
     @classmethod
     def get_token(cls, user) -> Token:
         return cls.token_class.for_user(user)  # type: ignore
-
-
-"""
-11
-
-PageNumber                           LimitOffset
-
-page=1 page_size=3      (3ta)        limit 3 offset 0
-page=2 page_size=3      (3ta)        limit 3 offset 3
-page=3 page_size=3      (3ta)        limit 3 offset 6
-page=4 page_size=3      (2ta)        limit 3 offset 9
-
-
-
-
-limit offset
-
-
-
-"""

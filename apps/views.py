@@ -92,6 +92,7 @@ class CartConfirmAPIView(APIView):
         OrderItem.objects.bulk_create(order_item_list)
         order.total_amount = total_amount
         order.save()
+        user.cart.delete()
         return Response({"message": "Order created successfully"}, status.HTTP_201_CREATED)
 
 
