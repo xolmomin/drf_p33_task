@@ -2,7 +2,7 @@ import re
 
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from django.db.models import CharField, BigIntegerField
+from django.db.models import CharField, BigIntegerField, OneToOneField, CASCADE, DateField, TextField
 
 from apps.models.base import UUIDBaseModel
 from apps.models.managers import CustomUserManager
@@ -10,7 +10,6 @@ from apps.models.managers import CustomUserManager
 
 class User(AbstractUser, UUIDBaseModel):
     phone = CharField(max_length=20, unique=True)
-    balance = BigIntegerField(default=0)
     email = None
     username = None
 
@@ -30,3 +29,17 @@ class User(AbstractUser, UUIDBaseModel):
     def save(self, *, force_insert=False, force_update=False, using=None, update_fields=None):
         self.check_phone()
         super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)
+
+
+class AdminProfile(UUIDBaseModel):
+    user = OneToOneField('apps.User', CASCADE)
+    balance = BigIntegerField(default=0)
+    telegram_id = BigIntegerField(null=True, blank=True)
+
+
+class UserProfile(UUIDBaseModel):
+    user = OneToOneField('apps.User', CASCADE)
+    birth_date = DateField()
+    address = TextField()
+    region = CharField(max_length=255)
+    university = CharField(max_length=255)

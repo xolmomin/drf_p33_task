@@ -7,6 +7,7 @@ from django.db.models import ForeignKey, CASCADE, OneToOneField, TextChoices, Ch
 from django.db.models.fields import IntegerField
 
 from apps.models.base import UUIDBaseModel, CreatedBaseModel
+from apps.models.users import AdminProfile
 
 
 class Cart(UUIDBaseModel):
@@ -33,7 +34,12 @@ class Order(CreatedBaseModel):
         print("superuser_add_balance")
         if self.status == Order.Status.COMPLETED:
             User = get_user_model()
-            User.objects.filter(is_superuser=True).update(balance=F('balance') + 5000)
+
+            admins = User.objects.filter(is_superuser=True)
+            for admin in admins:
+                adminprofile, created = AdminProfile.objects.get_or_create(user=admin)
+                adminprofile.balance += 5000
+                adminprofile.save()
 
     def save(self, *, force_insert=False, force_update=False, using=None, update_fields=None):
         threading.Thread(target=self.superuser_add_balance).start()
