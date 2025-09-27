@@ -3,7 +3,7 @@ from typing import Any
 
 from django.contrib.auth import authenticate
 from django.core.exceptions import ValidationError
-from rest_framework.fields import CharField, IntegerField
+from rest_framework.fields import CharField, IntegerField, FileField
 from rest_framework.serializers import ModelSerializer, Serializer
 from rest_framework_simplejwt.tokens import Token, RefreshToken
 
@@ -29,13 +29,16 @@ class CartConfirmModelSerializer(ModelSerializer):
 
 
 class CartItemModelSerializer(ModelSerializer):
+    file = FileField(required=True, write_only=True)
+
     class Meta:
         model = CartItem
-        fields = 'id', 'cart', 'product', 'quantity'
+        fields = 'id', 'cart', 'product', 'quantity', 'file'
         read_only_fields = 'cart', 'quantity'
         # extra_kwargs = {}
 
     def create(self, validated_data):
+        validated_data.pop('file')
         user = self.context['request'].user
         cart = Cart.objects.filter(user=user).first()
         if not cart:

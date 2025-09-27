@@ -1,9 +1,12 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
+from rest_framework.decorators import action
 from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser, FileUploadParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework_simplejwt.views import TokenRefreshView
 
 from apps.models import Product, Category, CartItem, Order, OrderItem
@@ -47,10 +50,17 @@ class LoginAPIView(APIView):
         return Response(serializer.get_data)
 
 
-class ProductListAPIView(ListAPIView):
+class ProductModelViewSet(ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductListModelSerializer
-    authentication_classes = ()
+
+    @action(detail=False, methods=['patch', 'get', 'delete'], url_path='stats')
+    def stats_product(self, request):
+        return Response({"count": 1})
+
+    @action(detail=True, methods=['post'], url_path='stats')
+    def stats_product_detail(self, request, pk=None):
+        return Response({"count": 1})
 
 
 class CategoryListAPIView(ListAPIView):
@@ -62,6 +72,7 @@ class CategoryListAPIView(ListAPIView):
 class CartItemListCreateAPIView(ListCreateAPIView):
     queryset = CartItem.objects.all()
     serializer_class = CartItemModelSerializer
+    parser_classes = (FormParser, MultiPartParser, FileUploadParser, JSONParser)
     permission_classes = IsAuthenticated,
 
     def get_queryset(self):

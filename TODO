@@ -52,9 +52,11 @@ cart dagini ochirish, update qilish (quantity)
 
 
 
-migrations
-
-signals
+migrations +
+signals +
+logger (sql loglarni korish) +
+https://djangopackages.org/ +
+debug toolbar +
 tests (unittest, pytest)
 contenttype
 middleware

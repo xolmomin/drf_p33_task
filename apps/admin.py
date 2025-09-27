@@ -68,6 +68,11 @@ class UserProxyModelAdmin(UserAdminMixin):
     list_display = ['id', 'first_name', 'last_name', 'user_address', 'user_university']
     inlines = [UserProfileStackedInline]
 
+    # n + 1 - select_related, prefetch_related
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('userprofile')
+
     @admin.display(description="Address", empty_value='')
     def user_address(self, obj):
         if hasattr(obj, 'userprofile'):
@@ -102,7 +107,14 @@ class AdminProxyModelAdmin(UserAdminMixin):
 
 @admin.register(Category)
 class CategoryModelAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['id', 'product_names']
+
+    @admin.display(description="Product Names")
+    def product_names(self, obj: Category):
+        return ', '.join([product.name for product in obj.product_set.all()])
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).prefetch_related('product_set')
 
 
 @admin.register(Order)
@@ -133,8 +145,11 @@ class OrderModelAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductModelAdmin(admin.ModelAdmin):
-    list_display = 'id', 'name', 'price'
+    list_display = 'id', 'name', 'price', 'category__name'
     search_fields = 'name',
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('category')
 
 
 admin.site.unregister(Group)
